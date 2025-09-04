@@ -45,9 +45,16 @@ export class AuthService {
       }
     });
 
+    // Generate JWT tokens
+    const payload = { sub: user.id, email: user.email };
+    const accessToken = this.jwtService.sign(payload, { expiresIn: '15m' });
+    const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
+
     return {
       message: 'User created successfully',
       user,
+      accessToken,
+      refreshToken,
     };
   }
 
